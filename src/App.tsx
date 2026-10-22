@@ -1,9 +1,8 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import devPhoto from '@/imports/istockphoto-840640768-170667a.jpg'
 import MeshDriftBackground from './MeshDriftBackground'
 import { MagneticCursor } from './components/ui/magnetic-cursor'
-import { TextDisperse } from './components/ui/text-disperse'
-import { TextScramble } from './components/ui/text-scramble'
+import WavyText from './components/ui/wavy-text'
 
 const PROJECTS = [
   { id: 0, title: 'portfolio v3', category: 'Design & Development', accent: '#4a4b6a' },
@@ -20,14 +19,8 @@ const SKILLS = [
   'Docker', 'AWS',
 ]
 
-const NAV_ITEMS = [
-  { label: 'MENU', id: 'home' },
-  { label: 'TRABALHOS', id: 'work' },
-  { label: 'SOBRE', id: 'about' },
-  { label: 'CONTATO', id: 'contact' },
-]
-
 type Section = 'home' | 'work' | 'about' | 'contact'
+type Language = 'pt' | 'en'
 
 // ─── Blob ────────────────────────────────────────────────────────────────────
 
@@ -65,9 +58,9 @@ function Blob({ style, animClass = '' }: BlobProps) {
 function Logo() {
   return (
     <svg width="42" height="32" viewBox="0 0 42 32" fill="none" aria-label="logo" style={{ pointerEvents: 'none' }}>
-      <path d="M13 4L1 16L13 28" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M29 4L41 16L29 28" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-      <line x1="25" y1="2" x2="17" y2="30" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
+      <path d="M13 4L1 16L13 28" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M29 4L41 16L29 28" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+      <line x1="25" y1="2" x2="17" y2="30" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
     </svg>
   )
 }
@@ -77,7 +70,7 @@ function GridIcon() {
     <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
       {[4, 11, 18].flatMap(y =>
         [4, 11, 18].map(x => (
-          <circle key={`${x}-${y}`} cx={x} cy={y} r="1.7" fill="rgba(255,255,255,0.75)" />
+          <circle key={`${x}-${y}`} cx={x} cy={y} r="1.7" fill="currentColor" opacity="0.75" />
         ))
       )}
     </svg>
@@ -87,15 +80,36 @@ function GridIcon() {
 function CloseIcon() {
   return (
     <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-      <line x1="4" y1="4" x2="18" y2="18" stroke="rgba(255,255,255,0.75)" strokeWidth="1.5" strokeLinecap="round" />
-      <line x1="18" y1="4" x2="4" y2="18" stroke="rgba(255,255,255,0.75)" strokeWidth="1.5" strokeLinecap="round" />
+      <line x1="4" y1="4" x2="18" y2="18" stroke="currentColor" opacity="0.75" strokeWidth="1.5" strokeLinecap="round" />
+      <line x1="18" y1="4" x2="4" y2="18" stroke="currentColor" opacity="0.75" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+  )
+}
+
+function ThemeIcon({ darkMode }: { darkMode: boolean }) {
+  return darkMode ? (
+    <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none">
+      <circle cx="12" cy="12" r="3.5" stroke="currentColor" strokeWidth="1.5" />
+      <path d="M12 2.5v2M12 19.5v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2.5 12h2m15 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+  ) : (
+    <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none">
+      <path d="M20.2 15.1A8.5 8.5 0 0 1 8.9 3.8 8.5 8.5 0 1 0 20.2 15.1Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   )
 }
 
 // ─── Sections ────────────────────────────────────────────────────────────────
 
-function HeroSection({ navigate }: { navigate: (s: Section) => void }) {
+function HeroSection({
+  navigate,
+  language,
+}: {
+  navigate: (s: Section) => void
+  language: Language
+}) {
+  const isEnglish = language === 'en'
+
   return (
     <div className="relative w-full h-full flex items-center justify-center overflow-hidden">
       <MeshDriftBackground />
@@ -116,31 +130,33 @@ function HeroSection({ navigate }: { navigate: (s: Section) => void }) {
               display: 'inline-block',
               marginRight: '0.16em',
               color: 'transparent',
-              WebkitTextStroke: '1.5px rgba(255, 255, 255, 1)',
+              WebkitTextStroke: '1.5px var(--text-primary)',
             }}
           >
-            Ei, sou 
+            {isEnglish ? "Hi, I'm " : 'Ei, sou '}
           </span>
-          <TextScramble className="text-white" text="JOÃO VITOR DA M. S." />
+          <WavyText>JOÃO VITOR DA M. S.</WavyText>
           <br />
           <span
             style={{
               fontFamily: "'Barlow Condensed', sans-serif",
               fontWeight: 400,
               color: 'transparent',
-              WebkitTextStroke: '1.5px rgba(255, 255, 255, 1)',
+              WebkitTextStroke: '1.5px var(--text-primary)',
             }}
           >
-            {' MAIS PODE ME CHAMAR '}
+            {isEnglish ? ' BUT YOU CAN CALL ME ' : ' MAIS PODE ME CHAMAR '}
           </span>
-          <TextDisperse className="text-white">MÁIA</TextDisperse>
+          <WavyText>MÁIA</WavyText>
         </h1>
 
         <p
           className="font-light leading-relaxed mb-10"
-          style={{ color: 'rgba(255,255,255,0.36)', fontSize: '0.875rem' }}
+          style={{ color: 'var(--text-36)', fontSize: '0.875rem' }}
         >
-          Sou desenvolvedor front-end e designer de UX/UI.
+          {isEnglish
+            ? 'I am a front-end developer and UX/UI designer.'
+            : 'Sou desenvolvedor front-end e designer de UX/UI.'}
           <br />
           &amp; creative technologist
         </p>
@@ -149,18 +165,18 @@ function HeroSection({ navigate }: { navigate: (s: Section) => void }) {
           <button
             data-magnetic
             onClick={() => navigate('work')}
-            className="text-sm font-light transition-colors duration-200 hover:text-white"
-            style={{ color: 'rgba(255,255,255,0.52)' }}
+            className="text-sm font-light transition-colors duration-200 hover:text-[var(--text-primary)]"
+            style={{ color: 'var(--text-52)' }}
           >
-            → Veja meus projetos
+            {isEnglish ? '→ View my work' : '→ Veja meus projetos'}
           </button>
           <button
             data-magnetic
             onClick={() => navigate('about')}
-            className="text-sm font-light transition-colors duration-200 hover:text-white"
-            style={{ color: 'rgba(255,255,255,0.52)' }}
+            className="text-sm font-light transition-colors duration-200 hover:text-[var(--text-primary)]"
+            style={{ color: 'var(--text-52)' }}
           >
-            → mais sobre mim
+            {isEnglish ? '→ more about me' : '→ mais sobre mim'}
           </button>
         </div>
       </div>
@@ -168,9 +184,13 @@ function HeroSection({ navigate }: { navigate: (s: Section) => void }) {
   )
 }
 
-function WorkSection() {
+function WorkSection({ language, darkMode }: { language: Language; darkMode: boolean }) {
   const [hovered, setHovered] = useState(0)
   const active = PROJECTS[hovered]
+  const isEnglish = language === 'en'
+  const projectCategories = isEnglish
+    ? PROJECTS.map(project => project.category)
+    : ['Design & Desenvolvimento', 'Desenvolvimento Web', 'Design UX/UI', 'Aplicativo Mobile', 'Visualização de Dados', 'Full Stack']
 
   return (
     <div className="relative flex w-full h-full overflow-hidden">
@@ -180,21 +200,23 @@ function WorkSection() {
       <div
         className="relative z-10 hidden md:flex w-[48%] h-full flex-col items-start justify-end p-14 transition-all duration-700 flex-shrink-0"
         style={{
-          background: `radial-gradient(ellipse at 42% 42%, ${active.accent}99 0%, transparent 78%)`,
+          background: darkMode
+            ? `radial-gradient(ellipse at 42% 42%, ${active.accent}99 0%, transparent 78%)`
+            : 'radial-gradient(ellipse at 42% 42%, rgba(107, 142, 184, 0.2) 0%, transparent 78%)',
         }}
       >
         <p
           className="text-xs font-light uppercase tracking-[0.25em] mb-2"
-          style={{ color: 'rgba(255,255,255,0.18)' }}
+          style={{ color: 'var(--text-18)' }}
         >
-          PROJECT
+          {isEnglish ? 'PROJECT' : 'PROJETO'}
         </p>
         <p
           className="font-black uppercase leading-none"
           style={{
             fontFamily: "'Barlow Condensed', sans-serif",
             fontSize: 'clamp(2.2rem,4.5vw,3.8rem)',
-            color: 'rgba(255,255,255,0.12)',
+            color: 'var(--text-12)',
             letterSpacing: '-0.01em',
           }}
         >
@@ -206,15 +228,15 @@ function WorkSection() {
       <div className="relative z-10 flex-1 flex flex-col justify-center px-10 md:px-14 py-28 overflow-y-auto">
         <div
           className="flex items-baseline justify-between pb-5 mb-0"
-          style={{ borderBottom: '1px solid rgba(255,255,255,0.1)' }}
+          style={{ borderBottom: '1px solid var(--line)' }}
         >
           <h2
             className="font-black uppercase tracking-tight"
             style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 'clamp(2rem,5vw,3.5rem)' }}
           >
-            TRABALHOS
+            {isEnglish ? 'WORK' : 'TRABALHOS'}
           </h2>
-          <span className="text-sm font-light" style={{ color: 'rgba(255,255,255,0.25)' }}>
+          <span className="text-sm font-light" style={{ color: 'var(--text-25)' }}>
             {PROJECTS.length}
           </span>
         </div>
@@ -224,14 +246,14 @@ function WorkSection() {
             key={project.id}
             onMouseEnter={() => setHovered(i)}
             className="w-full flex items-center justify-between py-5 text-left"
-            style={{ borderBottom: '1px solid rgba(255,255,255,0.1)' }}
+            style={{ borderBottom: '1px solid var(--line)' }}
           >
             <span
               className="font-bold tracking-wide transition-colors duration-150"
               style={{
                 fontFamily: "'Barlow Condensed', sans-serif",
                 fontSize: '1.15rem',
-                color: hovered === i ? 'rgba(255,255,255,1)' : 'rgba(255,255,255,0.65)',
+                color: hovered === i ? 'var(--text-primary)' : 'var(--text-65)',
                 letterSpacing: '0.03em',
               }}
             >
@@ -240,9 +262,9 @@ function WorkSection() {
             </span>
             <span
               className="text-xs font-light uppercase tracking-wider"
-              style={{ color: 'rgba(255,255,255,0.28)' }}
+              style={{ color: 'var(--text-28)' }}
             >
-              {project.category}
+              {projectCategories[i]}
             </span>
           </button>
         ))}
@@ -251,8 +273,9 @@ function WorkSection() {
   )
 }
 
-function AboutSection() {
+function AboutSection({ language }: { language: Language }) {
   const [isPhotoHovered, setIsPhotoHovered] = useState(false)
+  const isEnglish = language === 'en'
 
   return (
     <div className="relative flex w-full h-full items-center px-8 md:px-20 lg:px-28 overflow-y-auto">
@@ -263,9 +286,9 @@ function AboutSection() {
           className="font-black uppercase tracking-tight mb-1"
           style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 'clamp(2.5rem,6vw,5rem)' }}
         >
-          SOBRE MIM
+          {isEnglish ? 'ABOUT ME' : 'SOBRE MIM'}
         </h2>
-        <div className="h-px mb-12" style={{ background: 'rgba(255,255,255,0.1)' }} />
+        <div className="h-px mb-12" style={{ background: 'var(--line)' }} />
 
         <div className="grid md:grid-cols-[auto_1fr] gap-12 md:gap-16 items-start">
           {/* Photo with background removed via radial vignette */}
@@ -283,7 +306,7 @@ function AboutSection() {
           >
             <img
               src={devPhoto}
-              alt="Developer photo"
+              alt={isEnglish ? 'Developer photo' : 'Foto do desenvolvedor'}
               style={{
                 width: '100%',
                 height: '100%',
@@ -309,42 +332,42 @@ function AboutSection() {
             <div>
               <p
                 className="leading-[1.9] mb-5 font-light"
-                style={{ color: 'rgba(255,255,255,0.52)', fontSize: '0.95rem' }}
+                style={{ color: 'var(--text-52)', fontSize: '0.95rem' }}
               >
-                Sou um desenvolvedor front-end apaixonado, baseado no Brasil. 
-                Especializo-me na criação de experiências web belas e de alto desempenho utilizando tecnologias 
-                modernas. Valorizo ​​profundamente sistemas 
-                de design, acessibilidade e a arte de escrever código limpo.
+                {isEnglish
+                  ? 'I am a passionate front-end developer based in Brazil. I specialize in creating beautiful, high-performance web experiences with modern technologies. I deeply value design systems, accessibility, and the art of writing clean code.'
+                  : 'Sou um desenvolvedor front-end apaixonado, baseado no Brasil. Especializo-me na criação de experiências web belas e de alto desempenho utilizando tecnologias modernas. Valorizo profundamente sistemas de design, acessibilidade e a arte de escrever código limpo.'}
               </p>
               <p
                 className="leading-[1.9] font-light"
-                style={{ color: 'rgba(255,255,255,0.28)', fontSize: '0.875rem' }}
+                style={{ color: 'var(--text-28)', fontSize: '0.875rem' }}
               >
-                Quando não estou programando, você me encontrará explorando projetos de código aberto,
-                projetando conceitos de UI ou experimentando com programação criativa e arte gerativa.
+                {isEnglish
+                  ? "When I'm not coding, you'll find me exploring open-source projects, designing UI concepts, or experimenting with creative coding and generative art."
+                  : 'Quando não estou programando, você me encontrará explorando projetos de código aberto, projetando conceitos de UI ou experimentando com programação criativa e arte generativa.'}
               </p>
             </div>
 
             <div>
               <p
                 className="text-xs uppercase tracking-[0.22em] font-light mb-4"
-                style={{ color: 'rgba(255,255,255,0.22)' }}
+                style={{ color: 'var(--text-22)' }}
               >
-                TECNOLOGIAS
+                {isEnglish ? 'TECHNOLOGIES' : 'TECNOLOGIAS'}
               </p>
               <div className="flex flex-wrap gap-2">
                 {SKILLS.map(skill => (
                   <span
                     key={skill}
                     className="text-xs font-light px-3 py-1.5 cursor-default transition-all duration-200"
-                    style={{ border: '1px solid rgba(255,255,255,0.12)', color: 'rgba(255,255,255,0.45)' }}
+                    style={{ border: '1px solid var(--line)', color: 'var(--text-45)' }}
                     onMouseEnter={e => {
-                      (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.35)'
-                      ;(e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.8)'
+                      (e.currentTarget as HTMLElement).style.borderColor = 'var(--line-strong)'
+                      ;(e.currentTarget as HTMLElement).style.color = 'var(--text-80)'
                     }}
                     onMouseLeave={e => {
-                      (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.12)'
-                      ;(e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.45)'
+                      (e.currentTarget as HTMLElement).style.borderColor = 'var(--line)'
+                      ;(e.currentTarget as HTMLElement).style.color = 'var(--text-45)'
                     }}
                   >
                     {skill}
@@ -359,7 +382,9 @@ function AboutSection() {
   )
 }
 
-function ContactSection() {
+function ContactSection({ language }: { language: Language }) {
+  const isEnglish = language === 'en'
+
   return (
     <div className="relative flex w-full h-full items-center px-8 md:px-20 lg:px-28">
       <MeshDriftBackground />
@@ -369,22 +394,22 @@ function ContactSection() {
           className="font-black uppercase tracking-tight mb-1"
           style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 'clamp(2.5rem,6vw,5rem)' }}
         >
-          CONTATO
+          {isEnglish ? 'CONTACT' : 'CONTATO'}
         </h2>
-        <div className="h-px mb-12" style={{ background: 'rgba(255,255,255,0.1)' }} />
+        <div className="h-px mb-12" style={{ background: 'var(--line)' }} />
 
         <div className="grid md:grid-cols-2 gap-12 md:gap-24">
           <div>
             <p
               className="text-xs uppercase tracking-[0.22em] font-light mb-4"
-              style={{ color: 'rgba(255,255,255,0.22)' }}
+              style={{ color: 'var(--text-22)' }}
             >
-              E-MAIL
+              EMAIL
             </p>
             <a
               href="mailto:hello@yourname.dev"
-              className="font-light transition-colors duration-200 hover:text-white"
-              style={{ color: 'rgba(255,255,255,0.58)', fontSize: '0.9rem' }}
+              className="font-light transition-colors duration-200 hover:text-[var(--text-primary)]"
+              style={{ color: 'var(--text-58)', fontSize: '0.9rem' }}
             >
               ↗ hello@yourname.dev
             </a>
@@ -393,9 +418,9 @@ function ContactSection() {
           <div>
             <p
               className="text-xs uppercase tracking-[0.22em] font-light mb-4"
-              style={{ color: 'rgba(255,255,255,0.22)' }}
+              style={{ color: 'var(--text-22)' }}
             >
-              REDES SOCIAIS
+              {isEnglish ? 'SOCIAL MEDIA' : 'REDES SOCIAIS'}
             </p>
             <div className="space-y-3">
               {[
@@ -408,8 +433,8 @@ function ContactSection() {
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block font-light transition-colors duration-200 hover:text-white"
-                  style={{ color: 'rgba(255,255,255,0.58)', fontSize: '0.9rem' }}
+                  className="block font-light transition-colors duration-200 hover:text-[var(--text-primary)]"
+                  style={{ color: 'var(--text-58)', fontSize: '0.9rem' }}
                 >
                   ↗ {label}
                 </a>
@@ -428,6 +453,19 @@ export default function App() {
   const [current, setCurrent] = useState<Section>('home')
   const [visible, setVisible] = useState(true)
   const [navOpen, setNavOpen] = useState(false)
+  const [language, setLanguage] = useState<Language>('pt')
+  const [darkMode, setDarkMode] = useState(true)
+  const isEnglish = language === 'en'
+  const navItems = [
+    { label: 'MENU', id: 'home' as const },
+    { label: isEnglish ? 'WORK' : 'TRABALHOS', id: 'work' as const },
+    { label: isEnglish ? 'ABOUT' : 'SOBRE', id: 'about' as const },
+    { label: isEnglish ? 'CONTACT' : 'CONTATO', id: 'contact' as const },
+  ]
+
+  useEffect(() => {
+    document.documentElement.lang = isEnglish ? 'en' : 'pt-BR'
+  }, [isEnglish])
 
   const navigateTo = (section: Section) => {
     setNavOpen(false)
@@ -442,8 +480,8 @@ export default function App() {
   return (
     <MagneticCursor magneticFactor={0.55} blendMode="exclusion" cursorSize={24}>
       <div
-        className="relative w-full h-full overflow-hidden"
-        style={{ background: '#252631', fontFamily: "'Outfit', sans-serif", color: 'white' }}
+        className={`theme-root relative w-full h-full overflow-hidden ${darkMode ? 'theme-dark' : 'theme-light'}`}
+        style={{ fontFamily: "'Outfit', sans-serif" }}
       >
       <MeshDriftBackground />
 
@@ -458,16 +496,44 @@ export default function App() {
             <Logo />
           </button>
         )}
-        {!navOpen && (
-          <button
-            data-magnetic
-            onClick={() => setNavOpen(true)}
-            className="opacity-60 hover:opacity-100 transition-opacity duration-200 p-1"
-            aria-label="Open menu"
-          >
-            <GridIcon />
-          </button>
-        )}
+        <div className="flex items-center gap-5">
+          {!navOpen && (
+            <button
+              data-magnetic
+              onClick={() => setDarkMode(!darkMode)}
+              className="p-1 opacity-60 transition-opacity duration-200 hover:opacity-100"
+              aria-label={darkMode
+                ? (isEnglish ? 'Switch to light mode' : 'Ativar modo claro')
+                : (isEnglish ? 'Switch to dark mode' : 'Ativar modo escuro')}
+              title={darkMode
+                ? (isEnglish ? 'Light mode' : 'Modo claro')
+                : (isEnglish ? 'Dark mode' : 'Modo escuro')}
+            >
+              <ThemeIcon darkMode={darkMode} />
+            </button>
+          )}
+          {!navOpen && (
+            <button
+              data-magnetic
+              onClick={() => setLanguage(isEnglish ? 'pt' : 'en')}
+              className="text-sm font-light opacity-60 hover:opacity-100 transition-opacity duration-200 p-1"
+              aria-label={isEnglish ? 'Mudar idioma para português' : 'Switch language to English'}
+              title={isEnglish ? 'Português (Brasil)' : 'English'}
+            >
+              {isEnglish ? 'BR' : 'EN'}
+            </button>
+          )}
+          {!navOpen && (
+            <button
+              data-magnetic
+              onClick={() => setNavOpen(true)}
+              className="opacity-60 hover:opacity-100 transition-opacity duration-200 p-1"
+              aria-label={isEnglish ? 'Open menu' : 'Abrir menu'}
+            >
+              <GridIcon />
+            </button>
+          )}
+        </div>
       </header>
 
       {/* ─── NAV OVERLAY ─── */}
@@ -483,14 +549,38 @@ export default function App() {
         <MeshDriftBackground />
 
         {navOpen && (
-          <button
-            data-magnetic
-            onClick={() => setNavOpen(false)}
-            className="absolute top-6 right-8 z-10 opacity-60 hover:opacity-100 transition-opacity duration-200 p-1"
-            aria-label="Close menu"
-          >
-            <CloseIcon />
-          </button>
+          <div className="absolute top-6 right-8 z-10 flex items-center gap-5">
+            <button
+              data-magnetic
+              onClick={() => setDarkMode(!darkMode)}
+              className="p-1 opacity-60 transition-opacity duration-200 hover:opacity-100"
+              aria-label={darkMode
+                ? (isEnglish ? 'Switch to light mode' : 'Ativar modo claro')
+                : (isEnglish ? 'Switch to dark mode' : 'Ativar modo escuro')}
+              title={darkMode
+                ? (isEnglish ? 'Light mode' : 'Modo claro')
+                : (isEnglish ? 'Dark mode' : 'Modo escuro')}
+            >
+              <ThemeIcon darkMode={darkMode} />
+            </button>
+            <button
+              data-magnetic
+              onClick={() => setLanguage(isEnglish ? 'pt' : 'en')}
+              className="text-sm font-light opacity-60 hover:opacity-100 transition-opacity duration-200 p-1"
+              aria-label={isEnglish ? 'Mudar idioma para português' : 'Switch language to English'}
+              title={isEnglish ? 'Português (Brasil)' : 'English'}
+            >
+              {isEnglish ? 'BR' : 'EN'}
+            </button>
+            <button
+              data-magnetic
+              onClick={() => setNavOpen(false)}
+              className="opacity-60 hover:opacity-100 transition-opacity duration-200 p-1"
+              aria-label={isEnglish ? 'Close menu' : 'Fechar menu'}
+            >
+              <CloseIcon />
+            </button>
+          </div>
         )}
         {/* Left blob cluster */}
         <div className="hidden absolute left-0 top-0 h-full w-64 overflow-hidden">
@@ -506,18 +596,18 @@ export default function App() {
             onClick={() => navigateTo('home')}
             className="flex h-12 w-14 items-center justify-center"
             style={{ opacity: 0.6 }}
-            aria-label="Go to home"
+            aria-label={isEnglish ? 'Go to home' : 'Ir para o início'}
           >
             <Logo />
           </button>
-          <span className="text-sm font-light" style={{ color: 'rgba(255,255,255,0.35)' }}>
-            João vitor / Desenvolvedor  
+          <span className="text-sm font-light" style={{ color: 'var(--text-35)' }}>
+            {isEnglish ? 'João Vitor / Developer' : 'João Vitor / Desenvolvedor'}
           </span>
         </div>
 
         <div className="absolute inset-0 flex flex-col justify-center pl-[22vw] md:pl-[26vw] pr-12">
           <nav>
-            {NAV_ITEMS.map(({ label, id }, i) => (
+            {navItems.map(({ label, id }, i) => (
               <button
                 key={id}
                 onClick={() => navigateTo(id as Section)}
@@ -525,14 +615,14 @@ export default function App() {
               >
                 <span
                   className="text-xs font-light tabular-nums"
-                  style={{ color: 'rgba(255,255,255,0.25)', width: '2rem' }}
+                  style={{ color: 'var(--text-25)', width: '2rem' }}
                 >
                   0{i + 1}
                 </span>
                 <span
                   data-magnetic
                   data-magnetic-static
-                  className="inline-block font-black uppercase text-white group-hover:text-white/25 transition-colors duration-200"
+                  className="inline-block font-black uppercase text-[var(--text-primary)] group-hover:opacity-25 transition-opacity duration-200"
                   style={{
                     fontFamily: "'Barlow Condensed', sans-serif",
                     fontSize: 'clamp(3rem,9vw,7rem)',
@@ -557,8 +647,8 @@ export default function App() {
                 href={href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-sm font-light transition-colors duration-200 hover:text-white"
-                style={{ color: 'rgba(255,255,255,0.3)' }}
+                className="text-sm font-light transition-colors duration-200 hover:text-[var(--text-primary)]"
+                style={{ color: 'var(--text-30)' }}
               >
                 ↗ {label}
               </a>
@@ -568,7 +658,7 @@ export default function App() {
 
         <div
           className="absolute rounded-full"
-          style={{ right: '14%', top: '22%', width: 28, height: 28, border: '1px solid rgba(255,255,255,0.12)' }}
+          style={{ right: '14%', top: '22%', width: 28, height: 28, border: '1px solid var(--line)' }}
         />
       </div>
 
@@ -581,10 +671,10 @@ export default function App() {
           transition: 'opacity 0.26s ease, filter 0.26s ease',
         }}
       >
-        {current === 'home' && <HeroSection navigate={navigateTo} />}
-        {current === 'work' && <WorkSection />}
-        {current === 'about' && <AboutSection />}
-        {current === 'contact' && <ContactSection />}
+          {current === 'home' && <HeroSection navigate={navigateTo} language={language} />}
+          {current === 'work' && <WorkSection language={language} darkMode={darkMode} />}
+          {current === 'about' && <AboutSection language={language} />}
+          {current === 'contact' && <ContactSection language={language} />}
       </div>
       </div>
     </MagneticCursor>
