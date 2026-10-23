@@ -183,7 +183,9 @@ export default function MeshDriftBackground() {
     const transform = gl.getUniformLocation(program, 'u_transform')
     const space = gl.getUniformLocation(program, 'u_space')
     const cursor = gl.getUniformLocation(program, 'u_cursor')
-    const palette = [0.063, 0.063, 0.063, 0.961, 0.961, 0.961, 0.690, 0.690, 0.690, 0.227, 0.227, 0.227]
+    const darkPalette = [0.063, 0.063, 0.063, 0.961, 0.961, 0.961, 0.690, 0.690, 0.690, 0.227, 0.227, 0.227]
+    const lightPalette = [0.88, 0.91, 0.96, 0.98, 0.985, 0.995, 0.80, 0.85, 0.92, 0.91, 0.94, 0.98]
+    let isLightMode: boolean | null = null
     let pointerX = 0
     let pointerY = 0
     let animationFrame = 0
@@ -203,14 +205,18 @@ export default function MeshDriftBackground() {
     }
     const render = (now: number) => {
       const seconds = (now - startTime) / 1000
-      gl.uniform3fv(colors, palette)
+      const nextLightMode = canvas.closest('.theme-root')?.classList.contains('theme-light') ?? false
+      if (nextLightMode !== isLightMode) {
+        isLightMode = nextLightMode
+      }
+      gl.uniform3fv(colors, isLightMode ? lightPalette : darkPalette)
       gl.uniform4f(scene, canvas.width, canvas.height, seconds * -1.37, 4)
       gl.uniform4f(shape, 1.30, 0.56, 0.67, 0.19)
-      gl.uniform4f(surface, 2.02, 1.17, 0.00, 1.00)
-      gl.uniform4f(finish, 0.00, 0.15, 0.007, 0.10)
+      gl.uniform4f(surface, 2.02, isLightMode ? 1.0 : 1.17, 0.00, 1.00)
+      gl.uniform4f(finish, 0.00, isLightMode ? 0.08 : 0.15, 0.007, isLightMode ? 0.025 : 0.10)
       gl.uniform4f(transform, 5069.0, 2.72, 0.15, 0.0)
       gl.uniform4f(space, 0.09, 0.15, pointerX, pointerY)
-      gl.uniform4f(cursor, 1.0, 2.0, 0.73, 0.36)
+      gl.uniform4f(cursor, 1.0, 2.0, isLightMode ? 0.95 : 0.73, isLightMode ? 0.44 : 0.36)
       gl.drawArrays(gl.TRIANGLES, 0, 3)
       animationFrame = requestAnimationFrame(render)
     }

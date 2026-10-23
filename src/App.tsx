@@ -1,16 +1,76 @@
 import { useEffect, useState } from 'react'
 import devPhoto from '@/imports/istockphoto-840640768-170667a.jpg'
+import draMilenaPreview from '@/imports/project-dra-milena.jpg'
+import churrascariaPreview from '@/imports/project-churrascaria-tradicao-gaucha.jpg'
+import telasPreview from '@/imports/project-telas-e-redes-sul.jpg'
+import pizzariaPreview from '@/imports/project-pizzaria-tradicao-gaucha.jpg'
+import nitidaPreview from '@/imports/project-nitida.jpg'
+import elcanaPreview from '@/imports/project-elcana.jpg'
 import MeshDriftBackground from './MeshDriftBackground'
 import { MagneticCursor } from './components/ui/magnetic-cursor'
 import WavyText from './components/ui/wavy-text'
 
 const PROJECTS = [
-  { id: 0, title: 'portfolio v3', category: 'Design & Development', accent: '#4a4b6a' },
-  { id: 1, title: 'e-commerce store', category: 'Web Development', accent: '#3a5a4a' },
-  { id: 2, title: 'design system', category: 'UX/UI Design', accent: '#5a3a6a' },
-  { id: 3, title: 'task manager app', category: 'Mobile App', accent: '#6a3a3a' },
-  { id: 4, title: 'analytics dashboard', category: 'Data Visualization', accent: '#3d5a6a' },
-  { id: 5, title: 'blog platform', category: 'Full Stack', accent: '#4a5a3a' },
+  {
+    id: 0,
+    title: 'Dra. Milena',
+    category: 'Landing Page',
+    description: 'Site premium para advocacia.',
+    descriptionEn: 'Premium law firm website.',
+    accent: '#4a4b6a',
+    image: draMilenaPreview,
+    url: 'https://dramilenaadvocacia.netlify.app/',
+  },
+  {
+    id: 1,
+    title: 'Churrascaria Tradição Gaúcha',
+    category: 'Landing Page',
+    description: 'Landing page para churrascaria.',
+    descriptionEn: 'Landing page for a Brazilian steakhouse.',
+    accent: '#3a5a4a',
+    image: churrascariaPreview,
+    url: 'https://churrascariatradicaogaucha.netlify.app/',
+  },
+  {
+    id: 2,
+    title: 'Telas e Redes Sul',
+    category: 'Landing Page',
+    description: 'Loja de redes e telas.',
+    descriptionEn: 'Website for a screens and nets store.',
+    accent: '#5a3a6a',
+    image: telasPreview,
+    url: 'https://redesetelasflorianopolis.com.br/',
+  },
+  {
+    id: 3,
+    title: 'Pizzaria Tradição Gaúcha',
+    category: 'Landing Page',
+    description: 'Site para pizzaria.',
+    descriptionEn: 'Website for a pizzeria.',
+    accent: '#6a3a3a',
+    image: pizzariaPreview,
+    url: 'https://pizzariatradicaogaucha.vercel.app/',
+  },
+  {
+    id: 4,
+    title: 'Nítida',
+    category: 'Landing Page',
+    description: 'Site para empresa de limpeza.',
+    descriptionEn: 'Website for a cleaning company.',
+    accent: '#3d5a6a',
+    image: nitidaPreview,
+    url: 'https://nitidalimpeza.netlify.app/',
+  },
+  {
+    id: 5,
+    title: 'Elcana',
+    category: 'Institucional',
+    description: 'Site institucional para escola.',
+    descriptionEn: 'Institutional website for a school.',
+    accent: '#4a5a3a',
+    image: elcanaPreview,
+    url: 'https://elcana-ten.vercel.app/',
+  },
 ]
 
 const SKILLS = [
@@ -188,9 +248,10 @@ function WorkSection({ language, darkMode }: { language: Language; darkMode: boo
   const [hovered, setHovered] = useState(0)
   const active = PROJECTS[hovered]
   const isEnglish = language === 'en'
-  const projectCategories = isEnglish
-    ? PROJECTS.map(project => project.category)
-    : ['Design & Desenvolvimento', 'Desenvolvimento Web', 'Design UX/UI', 'Aplicativo Mobile', 'Visualização de Dados', 'Full Stack']
+
+  const selectProject = (index: number) => {
+    setHovered(index)
+  }
 
   return (
     <div className="relative flex w-full h-full overflow-hidden">
@@ -198,34 +259,31 @@ function WorkSection({ language, darkMode }: { language: Language; darkMode: boo
 
       {/* Left sticky preview */}
       <div
-        className="relative z-10 hidden md:flex w-[48%] h-full flex-col items-start justify-end p-14 transition-all duration-700 flex-shrink-0"
+        className="relative z-10 hidden md:block w-[49%] h-full flex-shrink-0"
         style={{
           background: darkMode
             ? `radial-gradient(ellipse at 42% 42%, ${active.accent}99 0%, transparent 78%)`
             : 'radial-gradient(ellipse at 42% 42%, rgba(107, 142, 184, 0.2) 0%, transparent 78%)',
         }}
       >
-        <p
-          className="text-xs font-light uppercase tracking-[0.25em] mb-2"
-          style={{ color: 'var(--text-18)' }}
+        <a
+          href={active.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="absolute inset-x-0 bottom-0 top-1/4 overflow-hidden rounded-tr-[2.5rem]"
+          aria-label={`${isEnglish ? 'Visit' : 'Visitar'} ${active.title}`}
         >
-          {isEnglish ? 'PROJECT' : 'PROJETO'}
-        </p>
-        <p
-          className="font-black uppercase leading-none"
-          style={{
-            fontFamily: "'Barlow Condensed', sans-serif",
-            fontSize: 'clamp(2.2rem,4.5vw,3.8rem)',
-            color: 'var(--text-12)',
-            letterSpacing: '-0.01em',
-          }}
-        >
-          {active.title}
-        </p>
+          <img
+            key={`${active.id}-preview`}
+            src={active.image}
+            alt={`${isEnglish ? 'Preview of' : 'Prévia de'} ${active.title}`}
+            className="absolute inset-0 h-full w-full object-contain object-top"
+          />
+        </a>
       </div>
 
       {/* Right list */}
-      <div className="relative z-10 flex-1 flex flex-col justify-center px-10 md:px-14 py-28 overflow-y-auto">
+      <div className="relative z-10 flex-1 flex flex-col justify-center px-10 md:px-10 py-28 overflow-y-auto">
         <div
           className="flex items-baseline justify-between pb-5 mb-0"
           style={{ borderBottom: '1px solid var(--line)' }}
@@ -242,31 +300,43 @@ function WorkSection({ language, darkMode }: { language: Language; darkMode: boo
         </div>
 
         {PROJECTS.map((project, i) => (
-          <button
+          <a
             key={project.id}
-            onMouseEnter={() => setHovered(i)}
-            className="w-full flex items-center justify-between py-5 text-left"
+            href={project.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            onMouseEnter={() => selectProject(i)}
+            onFocus={() => selectProject(i)}
+            className="group flex w-full items-center justify-between gap-4 py-4 text-left"
             style={{ borderBottom: '1px solid var(--line)' }}
           >
-            <span
-              className="font-bold tracking-wide transition-colors duration-150"
-              style={{
-                fontFamily: "'Barlow Condensed', sans-serif",
-                fontSize: '1.15rem',
-                color: hovered === i ? 'var(--text-primary)' : 'var(--text-65)',
-                letterSpacing: '0.03em',
-              }}
-            >
-              {hovered === i && <span className="mr-2">→</span>}
-              {project.title}
+            <span className="min-w-0 flex-1">
+              <span
+                className="block truncate font-bold tracking-wide transition-colors duration-150"
+                style={{
+                  fontFamily: "'Barlow Condensed', sans-serif",
+                  fontSize: '1.15rem',
+                  color: hovered === i ? 'var(--text-primary)' : 'var(--text-65)',
+                  letterSpacing: '0.03em',
+                }}
+              >
+                {hovered === i && <span className="mr-2">→</span>}
+                {project.title}
+              </span>
+              <span className="mt-1 block truncate text-xs font-light" style={{ color: 'var(--text-45)' }}>
+                {isEnglish ? project.descriptionEn : project.description}
+              </span>
             </span>
             <span
-              className="text-xs font-light uppercase tracking-wider"
+              className="hidden text-xs font-light uppercase tracking-wider sm:block"
               style={{ color: 'var(--text-28)' }}
             >
-              {projectCategories[i]}
+              {isEnglish
+                ? project.category === 'Institucional' ? 'Institutional' : 'Landing Page'
+                : project.category}
             </span>
-          </button>
+            <span className="sr-only">{isEnglish ? 'Open project website' : 'Abrir site do projeto'}</span>
+          </a>
         ))}
       </div>
     </div>
@@ -478,7 +548,7 @@ export default function App() {
   }
 
   return (
-    <MagneticCursor magneticFactor={0.55} blendMode="exclusion" cursorSize={24}>
+    <MagneticCursor magneticFactor={0.55} blendMode="difference" cursorColor="#ffffff" cursorSize={24}>
       <div
         className={`theme-root relative w-full h-full overflow-hidden ${darkMode ? 'theme-dark' : 'theme-light'}`}
         style={{ fontFamily: "'Outfit', sans-serif" }}
@@ -486,7 +556,10 @@ export default function App() {
       <MeshDriftBackground />
 
       {/* ─── FIXED HEADER ─── */}
-      <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 py-6">
+      <header
+        className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 py-6"
+        style={{ pointerEvents: navOpen ? 'none' : 'auto' }}
+      >
         {!navOpen && (
           <button
             data-magnetic
@@ -540,7 +613,7 @@ export default function App() {
       <div
         className="fixed inset-0 z-40"
         style={{
-          background: 'transparent',
+          background: 'var(--page-bg)',
           opacity: navOpen ? 1 : 0,
           pointerEvents: navOpen ? 'auto' : 'none',
           transition: 'opacity 0.45s ease',
@@ -621,8 +694,7 @@ export default function App() {
                 </span>
                 <span
                   data-magnetic
-                  data-magnetic-static
-                  className="inline-block font-black uppercase text-[var(--text-primary)] group-hover:opacity-25 transition-opacity duration-200"
+                  className="inline-block font-black uppercase text-[var(--text-primary)] group-hover:opacity-60 transition-opacity duration-200"
                   style={{
                     fontFamily: "'Barlow Condensed', sans-serif",
                     fontSize: 'clamp(3rem,9vw,7rem)',

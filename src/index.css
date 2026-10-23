@@ -61,10 +61,6 @@ body,
   background-image: radial-gradient(ellipse at 50% 0%, #e7eef9 0%, transparent 65%);
 }
 
-.theme-light .mesh-drift-background {
-  opacity: 0;
-}
-
 .theme-light .stroke-white {
   stroke: var(--text-primary);
 }

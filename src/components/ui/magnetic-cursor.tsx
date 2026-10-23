@@ -242,8 +242,8 @@ export const MagneticCursor: FC<MagneticCursorProps> = ({
           willChange: 'transform, width, height, border-radius', backgroundColor: cursorColor,
           mixBlendMode: blendMode, width: cursorSize, height: cursorSize,
           borderRadius: shape === 'circle' ? '50%' : shape === 'square' ? '0' : '8px',
-          backdropFilter: contrastBoost !== 1 ? `contrast(${contrastBoost})` : 'none',
-          WebkitBackdropFilter: contrastBoost !== 1 ? `contrast(${contrastBoost})` : 'none',
+          backdropFilter: `grayscale(1)${contrastBoost !== 1 ? ` contrast(${contrastBoost})` : ''}`,
+          WebkitBackdropFilter: `grayscale(1)${contrastBoost !== 1 ? ` contrast(${contrastBoost})` : ''}`,
         }}
       />
       {children}
