@@ -153,6 +153,7 @@ export default function MeshDriftBackground() {
 
   useEffect(() => {
     const canvas = canvasRef.current
+    if (window.matchMedia('(max-width: 767px)').matches) return
     const gl = canvas?.getContext('webgl', { antialias: false, alpha: false })
     if (!canvas || !gl) return
 

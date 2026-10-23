@@ -38,6 +38,9 @@ body,
   --text-12: rgba(255, 255, 255, 0.12);
   --line: rgba(255, 255, 255, 0.1);
   --line-strong: rgba(255, 255, 255, 0.35);
+  background-image:
+    radial-gradient(ellipse at 75% 18%, rgba(185, 190, 208, 0.14) 0%, transparent 48%),
+    radial-gradient(ellipse at 12% 86%, rgba(135, 139, 157, 0.11) 0%, transparent 42%);
 }
 
 .theme-light {
@@ -107,3 +110,9 @@ html {
 .float-1 { animation: float1 9s ease-in-out infinite; }
 .float-2 { animation: float2 12s ease-in-out infinite; }
 .float-3 { animation: float3 10s ease-in-out infinite; }
+
+@media (max-width: 767px) {
+  .mesh-drift-background {
+    display: none;
+  }
+}
