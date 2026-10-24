@@ -47,16 +47,14 @@ export const MagneticCursor: FC<MagneticCursorProps> = ({
 }) => {
   const cursorRef = useRef<HTMLDivElement>(null)
   const cursorStateRef = useRef<CursorState | null>(null)
-  const [isTouchDevice, setIsTouchDevice] = useState(false)
+  const [isTouchDevice] = useState(
+    () => typeof window !== 'undefined' && ('ontouchstart' in window || navigator.maxTouchPoints > 0),
+  )
   const configRef = useRef({ magneticFactor, speedMultiplier, maxScaleX, maxScaleY, cursorSize, lerpAmount, hoverPadding })
 
   useEffect(() => {
     configRef.current = { magneticFactor, speedMultiplier, maxScaleX, maxScaleY, cursorSize, lerpAmount, hoverPadding }
   }, [magneticFactor, speedMultiplier, maxScaleX, maxScaleY, cursorSize, lerpAmount, hoverPadding])
-
-  useEffect(() => {
-    setIsTouchDevice('ontouchstart' in window || navigator.maxTouchPoints > 0)
-  }, [])
 
   useEffect(() => {
     if (disableOnTouch && isTouchDevice) return
