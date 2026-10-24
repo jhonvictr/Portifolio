@@ -153,7 +153,7 @@ export default function MeshDriftBackground() {
 
   useEffect(() => {
     const canvas = canvasRef.current
-    if (window.matchMedia('(max-width: 767px)').matches) return
+    const isMobile = window.matchMedia('(max-width: 767px)').matches
     const gl = canvas?.getContext('webgl', { antialias: false, alpha: false })
     if (!canvas || !gl) return
 
@@ -194,7 +194,7 @@ export default function MeshDriftBackground() {
     let pausedAt = 0
 
     const resize = () => {
-      const ratio = Math.min(window.devicePixelRatio || 1, 2)
+      const ratio = Math.min(window.devicePixelRatio || 1, isMobile ? 1 : 2)
       canvas.width = Math.max(1, Math.floor(canvas.clientWidth * ratio))
       canvas.height = Math.max(1, Math.floor(canvas.clientHeight * ratio))
       gl.viewport(0, 0, canvas.width, canvas.height)

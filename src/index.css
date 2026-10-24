@@ -110,9 +110,3 @@ html {
 .float-1 { animation: float1 9s ease-in-out infinite; }
 .float-2 { animation: float2 12s ease-in-out infinite; }
 .float-3 { animation: float3 10s ease-in-out infinite; }
-
-@media (max-width: 767px) {
-  .mesh-drift-background {
-    display: none;
-  }
-}
