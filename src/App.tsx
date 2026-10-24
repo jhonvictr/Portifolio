@@ -180,8 +180,6 @@ function HeroSection({
 
   return (
     <div className="mobile-page-section relative w-full h-full flex items-center justify-center overflow-hidden">
-      <MeshDriftBackground />
-
       <div className="relative z-10 text-center px-8 max-w-4xl">
         <h1
           className="font-black uppercase tracking-tight mb-8"
@@ -263,8 +261,6 @@ function WorkSection({ language, darkMode }: { language: Language; darkMode: boo
 
   return (
     <div className="mobile-work-section relative flex w-full h-full overflow-hidden">
-      <MeshDriftBackground />
-
       {/* Left sticky preview */}
       <div
         className="relative z-10 hidden md:block w-[49%] h-full flex-shrink-0"
@@ -357,8 +353,6 @@ function AboutSection({ language }: { language: Language }) {
 
   return (
     <div className="mobile-about-section relative flex w-full h-full items-center px-8 md:px-20 lg:px-28 overflow-y-auto">
-      <MeshDriftBackground />
-
       <div className="about-section-content relative z-10 w-full max-w-5xl py-20">
         <h2
           className="font-black uppercase tracking-tight mb-1"
@@ -465,8 +459,6 @@ function ContactSection({ language }: { language: Language }) {
 
   return (
     <div className="mobile-contact-section relative flex w-full h-full items-center px-8 md:px-20 lg:px-28">
-      <MeshDriftBackground />
-
       <div className="relative z-10 w-full max-w-5xl">
         <h2
           className="font-black uppercase tracking-tight mb-1"
@@ -570,6 +562,8 @@ export default function App() {
         className={`theme-root relative w-full h-full overflow-hidden ${darkMode ? 'theme-dark' : 'theme-light'}`}
         style={{ fontFamily: "'Outfit', sans-serif" }}
       >
+      <MeshDriftBackground />
+
       {/* ─── FIXED HEADER ─── */}
       <header
         className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 py-6"
@@ -628,14 +622,12 @@ export default function App() {
       <div
         className="fixed inset-0 z-40"
         style={{
-          background: 'var(--page-bg)',
+          background: 'transparent',
           opacity: navOpen ? 1 : 0,
           pointerEvents: navOpen ? 'auto' : 'none',
           transition: 'opacity 0.45s ease',
         }}
       >
-        {navOpen && <MeshDriftBackground />}
-
         {navOpen && (
           <div className="absolute top-6 right-8 z-10 flex items-center gap-5">
             <button
