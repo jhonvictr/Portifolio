@@ -748,8 +748,9 @@ export default function App() {
       <div
         className="section-stage w-full h-full"
         style={{
-          opacity: visible ? 1 : 0,
-          filter: visible ? 'blur(0px)' : 'blur(6px)',
+          opacity: visible && !navOpen ? 1 : 0,
+          filter: visible && !navOpen ? 'blur(0px)' : 'blur(6px)',
+          pointerEvents: navOpen ? 'none' : 'auto',
           transition: 'opacity 0.26s ease, filter 0.26s ease',
         }}
       >
