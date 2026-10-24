@@ -38,8 +38,9 @@ export default function WavyText({
     const text = textRef.current
     if (!text) return
 
-    const resizeObserver = new ResizeObserver(([entry]) => {
-      widthRef.current = entry.contentRect.width
+    const updatePath = (width: number) => {
+      if (!width) return
+      widthRef.current = width
       pathRef.current?.setAttribute(
         "d",
         createWavePath(phaseRef.current, widthRef.current, amplitude),
@@ -48,6 +49,17 @@ export default function WavyText({
         "viewBox",
         `0 0 ${widthRef.current} 32`,
       )
+    }
+
+    if (typeof ResizeObserver === "undefined") {
+      const handleResize = () => updatePath(text.getBoundingClientRect().width)
+      handleResize()
+      window.addEventListener("resize", handleResize)
+      return () => window.removeEventListener("resize", handleResize)
+    }
+
+    const resizeObserver = new ResizeObserver(([entry]) => {
+      updatePath(entry.contentRect.width)
     })
 
     resizeObserver.observe(text)

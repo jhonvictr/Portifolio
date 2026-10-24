@@ -553,8 +553,6 @@ export default function App() {
         className={`theme-root relative w-full h-full overflow-hidden ${darkMode ? 'theme-dark' : 'theme-light'}`}
         style={{ fontFamily: "'Outfit', sans-serif" }}
       >
-      <MeshDriftBackground />
-
       {/* ─── FIXED HEADER ─── */}
       <header
         className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 py-6"
@@ -619,7 +617,7 @@ export default function App() {
           transition: 'opacity 0.45s ease',
         }}
       >
-        <MeshDriftBackground />
+        {navOpen && <MeshDriftBackground />}
 
         {navOpen && (
           <div className="absolute top-6 right-8 z-10 flex items-center gap-5">
