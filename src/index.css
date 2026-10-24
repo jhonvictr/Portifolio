@@ -110,3 +110,65 @@ html {
 .float-1 { animation: float1 9s ease-in-out infinite; }
 .float-2 { animation: float2 12s ease-in-out infinite; }
 .float-3 { animation: float3 10s ease-in-out infinite; }
+
+@media (max-width: 767px) {
+  html,
+  body,
+  #root {
+    height: auto;
+    min-height: 100%;
+  }
+
+  body {
+    min-height: 100svh;
+  }
+
+  .theme-root {
+    height: auto;
+    min-height: 100svh;
+    overflow: visible;
+  }
+
+  .section-stage,
+  .mobile-page-section,
+  .mobile-work-section,
+  .mobile-about-section,
+  .mobile-contact-section {
+    height: auto;
+    min-height: 100svh;
+  }
+
+  .mobile-page-section {
+    padding: 6rem 1.25rem 3rem;
+  }
+
+  .mobile-work-section {
+    overflow: visible;
+  }
+
+  .mobile-work-list {
+    justify-content: flex-start;
+    overflow: visible;
+    padding: 7rem 1.5rem 3rem;
+  }
+
+  .mobile-about-section {
+    align-items: flex-start;
+    overflow: visible;
+    padding: 6rem 1.5rem 3rem;
+  }
+
+  .about-section-content {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  .mobile-contact-section {
+    align-items: flex-start;
+    padding: 7rem 1.5rem 4rem;
+  }
+
+  .mobile-contact-grid {
+    gap: 2.5rem;
+  }
+}

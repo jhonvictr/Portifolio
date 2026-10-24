@@ -146,6 +146,14 @@ function CloseIcon() {
   )
 }
 
+function ArrowUpRightIcon() {
+  return (
+    <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none">
+      <path d="M7 17 17 7M7 7h10v10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  )
+}
+
 function ThemeIcon({ darkMode }: { darkMode: boolean }) {
   return darkMode ? (
     <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none">
@@ -171,7 +179,7 @@ function HeroSection({
   const isEnglish = language === 'en'
 
   return (
-    <div className="relative w-full h-full flex items-center justify-center overflow-hidden">
+    <div className="mobile-page-section relative w-full h-full flex items-center justify-center overflow-hidden">
       <MeshDriftBackground />
 
       <div className="relative z-10 text-center px-8 max-w-4xl">
@@ -254,7 +262,7 @@ function WorkSection({ language, darkMode }: { language: Language; darkMode: boo
   }
 
   return (
-    <div className="relative flex w-full h-full overflow-hidden">
+    <div className="mobile-work-section relative flex w-full h-full overflow-hidden">
       <MeshDriftBackground />
 
       {/* Left sticky preview */}
@@ -283,7 +291,7 @@ function WorkSection({ language, darkMode }: { language: Language; darkMode: boo
       </div>
 
       {/* Right list */}
-      <div className="relative z-10 flex-1 flex flex-col justify-center px-10 md:px-10 py-28 overflow-y-auto">
+      <div className="mobile-work-list relative z-10 flex-1 flex flex-col justify-center px-10 md:px-10 py-28 overflow-y-auto">
         <div
           className="flex items-baseline justify-between pb-5 mb-0"
           style={{ borderBottom: '1px solid var(--line)' }}
@@ -348,10 +356,10 @@ function AboutSection({ language }: { language: Language }) {
   const isEnglish = language === 'en'
 
   return (
-    <div className="relative flex w-full h-full items-center px-8 md:px-20 lg:px-28 overflow-y-auto">
+    <div className="mobile-about-section relative flex w-full h-full items-center px-8 md:px-20 lg:px-28 overflow-y-auto">
       <MeshDriftBackground />
 
-      <div className="relative z-10 w-full max-w-5xl py-20">
+      <div className="about-section-content relative z-10 w-full max-w-5xl py-20">
         <h2
           className="font-black uppercase tracking-tight mb-1"
           style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 'clamp(2.5rem,6vw,5rem)' }}
@@ -456,7 +464,7 @@ function ContactSection({ language }: { language: Language }) {
   const isEnglish = language === 'en'
 
   return (
-    <div className="relative flex w-full h-full items-center px-8 md:px-20 lg:px-28">
+    <div className="mobile-contact-section relative flex w-full h-full items-center px-8 md:px-20 lg:px-28">
       <MeshDriftBackground />
 
       <div className="relative z-10 w-full max-w-5xl">
@@ -468,7 +476,7 @@ function ContactSection({ language }: { language: Language }) {
         </h2>
         <div className="h-px mb-12" style={{ background: 'var(--line)' }} />
 
-        <div className="grid md:grid-cols-2 gap-12 md:gap-24">
+        <div className="mobile-contact-grid grid md:grid-cols-2 gap-12 md:gap-24">
           <div>
             <p
               className="text-xs uppercase tracking-[0.22em] font-light mb-4"
@@ -478,10 +486,11 @@ function ContactSection({ language }: { language: Language }) {
             </p>
             <a
               href="mailto:hello@yourname.dev"
-              className="font-light transition-colors duration-200 hover:text-[var(--text-primary)]"
+              className="flex w-fit items-center gap-2 font-light transition-colors duration-200 hover:text-[var(--text-primary)]"
               style={{ color: 'var(--text-58)', fontSize: '0.9rem' }}
             >
-              ↗ hello@yourname.dev
+              <ArrowUpRightIcon />
+              hello@yourname.dev
             </a>
           </div>
 
@@ -503,10 +512,11 @@ function ContactSection({ language }: { language: Language }) {
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block font-light transition-colors duration-200 hover:text-[var(--text-primary)]"
+                  className="flex w-fit items-center gap-2 font-light transition-colors duration-200 hover:text-[var(--text-primary)]"
                   style={{ color: 'var(--text-58)', fontSize: '0.9rem' }}
                 >
-                  ↗ {label}
+                  <ArrowUpRightIcon />
+                  {label}
                 </a>
               ))}
             </div>
@@ -720,7 +730,10 @@ export default function App() {
                 className="text-sm font-light transition-colors duration-200 hover:text-[var(--text-primary)]"
                 style={{ color: 'var(--text-30)' }}
               >
-                ↗ {label}
+                <span className="inline-flex items-center gap-2">
+                  <ArrowUpRightIcon />
+                  {label}
+                </span>
               </a>
             ))}
           </div>
@@ -734,7 +747,7 @@ export default function App() {
 
       {/* ─── SECTION STAGE ─── */}
       <div
-        className="w-full h-full"
+        className="section-stage w-full h-full"
         style={{
           opacity: visible ? 1 : 0,
           filter: visible ? 'blur(0px)' : 'blur(6px)',
