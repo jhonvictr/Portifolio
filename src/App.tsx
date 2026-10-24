@@ -547,6 +547,13 @@ export default function App() {
     document.documentElement.lang = isEnglish ? 'en' : 'pt-BR'
   }, [isEnglish])
 
+  useEffect(() => {
+    const pageBackground = darkMode ? '#252631' : '#f4f7fc'
+    document.documentElement.style.backgroundColor = pageBackground
+    document.body.style.backgroundColor = pageBackground
+    document.querySelector<HTMLMetaElement>('meta[name="theme-color"]')?.setAttribute('content', pageBackground)
+  }, [darkMode])
+
   const navigateTo = (section: Section) => {
     setNavOpen(false)
     if (section === current) return

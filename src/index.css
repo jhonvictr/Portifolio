@@ -13,6 +13,11 @@ body,
   height: 100%;
 }
 
+html,
+body {
+  background-color: #252631;
+}
+
 .theme-root {
   min-height: 100%;
   background-color: var(--page-bg);
@@ -121,12 +126,19 @@ html {
 
   body {
     min-height: 100svh;
+    overscroll-behavior-y: none;
   }
 
   .theme-root {
     height: auto;
     min-height: 100svh;
     overflow: visible;
+  }
+
+  .theme-root > header {
+    padding-top: calc(1.5rem + env(safe-area-inset-top));
+    padding-left: max(2rem, env(safe-area-inset-left));
+    padding-right: max(2rem, env(safe-area-inset-right));
   }
 
   .section-stage,
